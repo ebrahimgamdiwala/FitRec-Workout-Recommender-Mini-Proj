@@ -16,7 +16,7 @@ export default function Home() {
       {/* Ballpit Background */}
       <div className="fixed inset-0 z-0">
         <Ballpit 
-          followCursor={true}
+          followCursor={false}
           count={150}
           colors={[0x000000, 0x1e3a8a, 0x06b6d4, 0x3b82f6]}
           size0={1.5}
