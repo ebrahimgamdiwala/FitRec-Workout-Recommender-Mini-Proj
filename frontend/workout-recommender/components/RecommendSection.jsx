@@ -7,13 +7,48 @@ export default function RecommendSection() {
   const [formData, setFormData] = useState({
     fitnessLevel: 'intermediate',
     goal: 'muscle',
+    equipment: 'gym',
     duration: '45',
+    programLength: '12',
   });
 
-  const handleSubmit = (e) => {
+  const [recommendations, setRecommendations] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    // Here you would integrate with your recommendation API
+    setLoading(true);
+    setError(null);
+    
+    try {
+      const response = await fetch('http://localhost:5000/api/recommend', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          goal: formData.goal,
+          level: formData.fitnessLevel,
+          equipment: formData.equipment,
+          max_time: parseInt(formData.duration),
+          max_length: parseInt(formData.programLength),
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setRecommendations(data.recommendations);
+      } else {
+        setError(data.error || 'Failed to get recommendations');
+      }
+    } catch (err) {
+      setError('Failed to connect to the server. Make sure the backend is running on port 5000.');
+      console.error('Error:', err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -60,8 +95,8 @@ export default function RecommendSection() {
               </label>
               <div className="grid grid-cols-2 gap-3">
                 {[
-                  { value: 'weight-loss', label: 'Weight Loss' },
                   { value: 'muscle', label: 'Build Muscle' },
+                  { value: 'strength', label: 'Strength' },
                   { value: 'endurance', label: 'Endurance' },
                   { value: 'flexibility', label: 'Flexibility' },
                 ].map((goal) => (
@@ -71,13 +106,55 @@ export default function RecommendSection() {
                     onClick={() => setFormData({ ...formData, goal: goal.value })}
                     className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 ${
                       formData.goal === goal.value
-                        ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white scale-105 shadow-lg shadow-cyan-500/50'
+                        ? 'bg-linear-to-r from-cyan-500 to-blue-600 text-white scale-105 shadow-lg shadow-cyan-500/50'
                         : 'bg-white/10 text-gray-300 hover:bg-white/20'
                     }`}
                   >
                     {goal.label}
                   </button>
                 ))}
+              </div>
+            </div>
+
+            {/* Equipment */}
+            <div>
+              <label className="block text-lg font-semibold text-white mb-3">
+                Available Equipment
+              </label>
+              <div className="grid grid-cols-3 gap-3">
+                {['gym', 'home', 'bodyweight'].map((equip) => (
+                  <button
+                    key={equip}
+                    type="button"
+                    onClick={() => setFormData({ ...formData, equipment: equip })}
+                    className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 ${
+                      formData.equipment === equip
+                        ? 'bg-linear-to-r from-cyan-500 to-blue-600 text-white scale-105 shadow-lg shadow-cyan-500/50'
+                        : 'bg-white/10 text-gray-300 hover:bg-white/20'
+                    }`}
+                  >
+                    {equip.charAt(0).toUpperCase() + equip.slice(1)}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Program Length */}
+            <div>
+              <label className="block text-lg font-semibold text-white mb-3">
+                Program Length (weeks)
+              </label>
+              <input
+                type="range"
+                min="4"
+                max="24"
+                step="2"
+                value={formData.programLength}
+                onChange={(e) => setFormData({ ...formData, programLength: e.target.value })}
+                className="w-full h-3 bg-white/10 rounded-full appearance-none cursor-pointer accent-cyan-500"
+              />
+              <div className="text-center mt-2 text-2xl font-bold text-cyan-400">
+                {formData.programLength} weeks
               </div>
             </div>
 
@@ -103,12 +180,73 @@ export default function RecommendSection() {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-full font-semibold hover:scale-105 transition-transform duration-300 shadow-2xl shadow-cyan-500/50 text-lg"
+              disabled={loading}
+              className="w-full px-8 py-4 bg-linear-to-r from-cyan-500 to-blue-600 text-white rounded-full font-semibold hover:scale-105 transition-transform duration-300 shadow-2xl shadow-cyan-500/50 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Generate My Workout Plan
+              {loading ? 'Generating...' : 'Generate My Workout Plan'}
             </button>
+
+            {/* Error Message */}
+            {error && (
+              <div className="p-4 bg-red-500/20 border border-red-500 rounded-lg text-red-200">
+                {error}
+              </div>
+            )}
           </form>
         </GlassCard>
+
+        {/* Recommendations Display */}
+        {recommendations.length > 0 && (
+          <div className="mt-12 space-y-6">
+            <h3 className="text-3xl font-bold text-white text-center mb-8">
+              Your Personalized Recommendations
+            </h3>
+            
+            {recommendations.map((rec, index) => (
+              <GlassCard key={index} className="p-6">
+                <h4 className="text-2xl font-bold text-cyan-400 mb-3">{rec.title}</h4>
+                
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                  <div className="text-center p-3 bg-white/5 rounded-lg">
+                    <p className="text-gray-400 text-sm">Goal</p>
+                    <p className="text-white font-semibold">{rec.goal}</p>
+                  </div>
+                  <div className="text-center p-3 bg-white/5 rounded-lg">
+                    <p className="text-gray-400 text-sm">Level</p>
+                    <p className="text-white font-semibold">{rec.level}</p>
+                  </div>
+                  <div className="text-center p-3 bg-white/5 rounded-lg">
+                    <p className="text-gray-400 text-sm">Duration</p>
+                    <p className="text-white font-semibold">{rec.program_length} weeks</p>
+                  </div>
+                  <div className="text-center p-3 bg-white/5 rounded-lg">
+                    <p className="text-gray-400 text-sm">Time/Workout</p>
+                    <p className="text-white font-semibold">{rec.time_per_workout} min</p>
+                  </div>
+                </div>
+
+                <p className="text-gray-300 mb-4">{rec.description}</p>
+
+                <div className="border-t border-white/10 pt-4">
+                  <p className="text-white font-semibold mb-3">
+                    Sample Exercises ({rec.total_exercises} total):
+                  </p>
+                  <div className="space-y-2 max-h-64 overflow-y-auto">
+                    {rec.exercises.map((ex, exIndex) => (
+                      <div key={exIndex} className="bg-white/5 p-3 rounded">
+                        <p className="text-cyan-300 font-semibold">{ex.name}</p>
+                        <p className="text-gray-400 text-sm">
+                          Week {ex.week}, Day {ex.day} • {ex.sets} sets × {ex.reps} reps • 
+                          Intensity: {ex.intensity}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </GlassCard>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
