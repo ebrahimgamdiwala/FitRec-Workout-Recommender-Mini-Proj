@@ -4,12 +4,13 @@ An intelligent workout recommendation system that uses machine learning to provi
 
 ## 🌟 Features
 
-- **AI-Powered Recommendations**: Uses KMeans clustering on 600K+ workout data
-- **Personalized Plans**: Tailored to your fitness level, goals, and equipment
+ - **AI-Powered Recommendations**: Uses KMeans clustering on 600K+ workout data
+ - **New**: Top-10 candidate recommendations + plan selection and progress tracking with similar-plan suggestions
 - **Interactive Frontend**: Modern Next.js UI with smooth animations
 - **RESTful API**: Flask backend with ML integration
 - **Flexible Filtering**: Filter by program length and workout duration
 
+5. **Top-10 Recs, Selection & Tracking**: The backend now returns top-10 candidates; the user can select one to track. After selection, more similar plans are recommended and the user can record progress. See backend API `/api/select_plan`, `/api/track` and `/api/tracking`.
 ## 🏗️ Project Structure
 
 ```

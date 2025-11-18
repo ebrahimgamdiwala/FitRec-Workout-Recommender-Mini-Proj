@@ -20,7 +20,7 @@ export default function HeroSection() {
           <div className="text-center lg:text-left">
             <GlassCard hover={false} className="inline-block mb-6">
               <span className="text-sm font-semibold text-cyan-400">
-                ✨ AI-Powered Fitness
+                ✨ Personalized Fitness
               </span>
             </GlassCard>
 
@@ -32,7 +32,7 @@ export default function HeroSection() {
             </h1>
 
             <p className="text-xl text-gray-300 mb-8 max-w-xl mx-auto lg:mx-0">
-              Get personalized workout recommendations powered by advanced AI. 
+              Get personalized workout recommendations based on your goals and preferences. 
               Transform your fitness journey with plans tailored just for you.
             </p>
 
