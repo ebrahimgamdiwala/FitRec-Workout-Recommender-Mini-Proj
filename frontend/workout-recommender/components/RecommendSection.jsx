@@ -17,6 +17,50 @@ export default function RecommendSection() {
   const [recommendations, setRecommendations] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [savingPlan, setSavingPlan] = useState(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    setIsAuthenticated(!!token);
+  }, []);
+
+  const handleSavePlan = async (plan) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      router.push('/login');
+      return;
+    }
+
+    setSavingPlan(plan.title);
+    try {
+      const response = await fetch('http://localhost:5000/api/plans/save', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          plan_title: plan.title,
+          plan_data: plan
+        })
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        // Redirect to dashboard without alert
+        router.push('/dashboard');
+      } else {
+        // Only show error alerts
+        alert(data.error || 'Failed to save plan');
+      }
+    } catch (error) {
+      console.error('Error saving plan:', error);
+      alert('Failed to save plan');
+    } finally {
+      setSavingPlan(null);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -252,13 +296,25 @@ export default function RecommendSection() {
                   </p>
                 </div>
                 
-                <div className="mt-4">
-                  <button
-                    onClick={() => handleSelectPlan(rec)}
-                    className="w-full px-6 py-3 bg-linear-to-r from-cyan-500 to-blue-600 text-white rounded-full font-semibold hover:scale-105 transition-transform shadow-lg shadow-cyan-500/50"
-                  >
-                    View Details & Track Progress
-                  </button>
+                <div className="mt-4 flex gap-3">
+                  {isAuthenticated ? (
+                    <>
+                      <button
+                        onClick={() => handleSavePlan(rec)}
+                        disabled={savingPlan === rec.title}
+                        className="flex-1 px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-full font-semibold hover:scale-105 transition-transform shadow-lg disabled:opacity-50"
+                      >
+                        {savingPlan === rec.title ? 'Saving...' : 'Save & Start Plan'}
+                      </button>
+                    </>
+                  ) : (
+                    <button
+                      onClick={() => router.push('/login')}
+                      className="w-full px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-full font-semibold hover:scale-105 transition-transform shadow-lg shadow-cyan-500/50"
+                    >
+                      Login to Save Plan
+                    </button>
+                  )}
                 </div>
               </GlassCard>
             ))}

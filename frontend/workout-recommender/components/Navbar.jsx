@@ -1,10 +1,24 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function Navbar() {
+  const router = useRouter();
   const [activeLink, setActiveLink] = useState('home');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userName, setUserName] = useState('');
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const user = localStorage.getItem('user');
+    if (token && user) {
+      setIsAuthenticated(true);
+      const userData = JSON.parse(user);
+      setUserName(userData.name);
+    }
+  }, []);
 
   const navLinks = [
     { name: 'Home', href: '#home', id: 'home' },
@@ -41,9 +55,21 @@ export default function Navbar() {
           </div>
 
           {/* CTA Button */}
-          <button className="hidden sm:block px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-full font-semibold hover:scale-105 transition-transform duration-300 shadow-lg shadow-cyan-500/50">
-            Get Started
-          </button>
+          {isAuthenticated ? (
+            <button 
+              onClick={() => router.push('/dashboard')}
+              className="hidden sm:block px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-full font-semibold hover:scale-105 transition-transform duration-300 shadow-lg shadow-cyan-500/50"
+            >
+              Dashboard
+            </button>
+          ) : (
+            <button 
+              onClick={() => router.push('/login')}
+              className="hidden sm:block px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-full font-semibold hover:scale-105 transition-transform duration-300 shadow-lg shadow-cyan-500/50"
+            >
+              Login
+            </button>
+          )}
 
           {/* Mobile Menu Button */}
           <button className="md:hidden text-white">
