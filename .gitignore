@@ -45,3 +45,4 @@ next-env.d.ts
 program_summary.csv
 programs_detailed_boostcamp_kaggle.csv
 node_modules/
+.vscode
