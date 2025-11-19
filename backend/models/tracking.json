@@ -125,5 +125,19 @@
       ],
       "current_progress": 0.0
     }
+  ],
+  "user_1763526110275_xyzctt8jb": [
+    {
+      "title": "Girlfriend Gym Era",
+      "created_at": "2025-11-19T09:51:57.783110",
+      "progress": [
+        {
+          "date": "2025-11-19T10:01:09.797750",
+          "value": 0.0,
+          "note": "Reset"
+        }
+      ],
+      "current_progress": 0.0
+    }
   ]
 }

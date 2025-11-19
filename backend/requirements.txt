@@ -7,3 +7,5 @@ sentence-transformers==5.1.2
 torch==2.9.0
 joblib==1.5.2
 python-dotenv==1.0.0
+PyJWT==2.9.0
+bcrypt==4.2.1
