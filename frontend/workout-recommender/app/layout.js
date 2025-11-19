@@ -12,8 +12,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "FitRec - AI-Powered Workout Recommender",
-  description: "Get personalized workout recommendations powered by AI. Transform your fitness journey with plans tailored just for you.",
+  title: "FitRec - Workout Recommender",
+  description: "Get personalized workout recommendations. Transform your fitness journey with plans tailored just for you.",
 };
 
 export default function RootLayout({ children }) {

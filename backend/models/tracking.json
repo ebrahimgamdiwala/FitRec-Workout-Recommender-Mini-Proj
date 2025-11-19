@@ -1,0 +1,129 @@
+{
+  "a92c10a6-b481-4d7c-b31c-aab54076e394": [
+    {
+      "title": "Program 7: Endurance Training",
+      "created_at": "2025-11-18T23:23:57.084578",
+      "progress": [
+        {
+          "date": "2025-11-18T23:24:33.359218",
+          "value": 0.0,
+          "note": ""
+        },
+        {
+          "date": "2025-11-18T23:24:34.311436",
+          "value": 0.0,
+          "note": "Reset"
+        },
+        {
+          "date": "2025-11-18T23:24:37.588167",
+          "value": 69.0,
+          "note": ""
+        },
+        {
+          "date": "2025-11-18T23:24:39.423675",
+          "value": 0.0,
+          "note": "Reset"
+        }
+      ],
+      "current_progress": 0.0
+    },
+    {
+      "title": "Program 20: Endurance Training",
+      "created_at": "2025-11-18T23:24:43.460949",
+      "progress": [],
+      "current_progress": 0
+    },
+    {
+      "title": "Program 49: Endurance Training",
+      "created_at": "2025-11-18T23:24:57.613492",
+      "progress": [
+        {
+          "date": "2025-11-18T23:30:46.571892",
+          "value": 41.0,
+          "note": ""
+        },
+        {
+          "date": "2025-11-18T23:30:46.904102",
+          "value": 41.0,
+          "note": ""
+        },
+        {
+          "date": "2025-11-18T23:30:50.350764",
+          "value": 58.0,
+          "note": ""
+        },
+        {
+          "date": "2025-11-18T23:30:54.159684",
+          "value": 70.0,
+          "note": ""
+        }
+      ],
+      "current_progress": 70.0
+    },
+    {
+      "title": "Program 61: Endurance Training",
+      "created_at": "2025-11-18T23:33:14.732057",
+      "progress": [
+        {
+          "date": "2025-11-18T23:33:25.983566",
+          "value": 5.0,
+          "note": ""
+        },
+        {
+          "date": "2025-11-18T23:33:30.033916",
+          "value": 25.0,
+          "note": ""
+        },
+        {
+          "date": "2025-11-18T23:33:34.605309",
+          "value": 43.0,
+          "note": ""
+        },
+        {
+          "date": "2025-11-18T23:43:03.451595",
+          "value": 60.0,
+          "note": ""
+        },
+        {
+          "date": "2025-11-18T23:43:07.512243",
+          "value": 35.0,
+          "note": ""
+        }
+      ],
+      "current_progress": 35.0
+    },
+    {
+      "title": "Program 12: Fat Loss Training",
+      "created_at": "2025-11-18T23:53:48.463245",
+      "progress": [],
+      "current_progress": 0
+    },
+    {
+      "title": "Program 14: Fat Loss Training",
+      "created_at": "2025-11-19T00:03:11.440118",
+      "progress": [
+        {
+          "date": "2025-11-19T00:03:29.711724",
+          "value": 29.0,
+          "note": ""
+        },
+        {
+          "date": "2025-11-19T00:03:29.717398",
+          "value": 29.0,
+          "note": ""
+        },
+        {
+          "date": "2025-11-19T00:03:29.756136",
+          "value": 37.0,
+          "note": ""
+        },
+        {
+          "date": "2025-11-19T00:03:34.364807",
+          "value": 0.0,
+          "note": "Reset"
+        }
+      ],
+      "current_progress": 0.0
+    }
+  ]
+}

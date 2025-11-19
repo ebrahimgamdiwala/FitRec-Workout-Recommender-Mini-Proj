@@ -145,6 +145,7 @@ backend/
 │   └── ohe_encoder.pkl
 └── utils/
     ├── __init__.py
+    ├── tracker.py         # Simple tracking persister
     └── recommender.py    # Core recommendation logic
 ```
 
@@ -176,6 +177,33 @@ python app.py
 - Try different filter combinations
 - Check available options using `/api/options` endpoint
 - Relax constraints like max_length and max_time
+
+### New Endpoints
+
+#### Select Plan
+```
+POST /api/select_plan
+```
+Body:
+```json
+{ "user_id": "<optional>" , "title": "Program 1: Muscle Training" }
+```
+Returns a `user_id` (set in localStorage on frontend), the new tracking entry, and `similar` plans.
+
+#### Update Tracking
+```
+POST /api/track
+```
+Body:
+```json
+{ "user_id": "...", "title": "Program 1...", "progress": 50, "note": "Did 3 workouts this week" }
+```
+
+#### Get Tracking
+```
+GET /api/tracking?user_id=<id>
+```
+Returns stored tracking entries for that user.
 
 ## License
 

@@ -14,7 +14,7 @@ export default function Footer() {
                 FitRec
               </h3>
               <p className="text-gray-300 mb-4">
-                Your AI-powered fitness companion for personalized workout recommendations. 
+                Your fitness companion for personalized workout recommendations. 
                 Built with passion for helping you achieve your fitness goals.
               </p>
               <div className="flex gap-4">

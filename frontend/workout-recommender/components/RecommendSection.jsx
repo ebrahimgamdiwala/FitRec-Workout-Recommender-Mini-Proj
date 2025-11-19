@@ -1,9 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import GlassCard from './GlassCard';
 
 export default function RecommendSection() {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     fitnessLevel: 'intermediate',
     goal: 'muscle',
@@ -51,6 +53,21 @@ export default function RecommendSection() {
     }
   };
 
+  const handleSelectPlan = (plan) => {
+    // Save plan to localStorage and navigate to details page
+    localStorage.setItem('selected_plan', JSON.stringify(plan));
+    
+    // Get or create user ID
+    let uid = localStorage.getItem('fitrec_user_id');
+    if (!uid) {
+      uid = `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      localStorage.setItem('fitrec_user_id', uid);
+    }
+    
+    // Navigate to plan details page
+    router.push(`/plan/${encodeURIComponent(plan.title)}`);
+  };
+
   return (
     <section id="recommend" className="relative z-10 py-20 px-4">
       <div className="max-w-4xl mx-auto">
@@ -59,7 +76,7 @@ export default function RecommendSection() {
             Get Your Personalized Plan
           </h2>
           <p className="text-xl text-gray-300">
-            Answer a few questions and let our AI create the perfect workout for you
+            Answer a few questions and get the perfect workout plan for you
           </p>
         </div>
 
@@ -78,7 +95,7 @@ export default function RecommendSection() {
                     onClick={() => setFormData({ ...formData, fitnessLevel: level })}
                     className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 ${
                       formData.fitnessLevel === level
-                        ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white scale-105 shadow-lg shadow-cyan-500/50'
+                        ? 'bg-linear-to-r from-cyan-500 to-blue-600 text-white scale-105 shadow-lg shadow-cyan-500/50'
                         : 'bg-white/10 text-gray-300 hover:bg-white/20'
                     }`}
                   >
@@ -99,6 +116,8 @@ export default function RecommendSection() {
                   { value: 'strength', label: 'Strength' },
                   { value: 'endurance', label: 'Endurance' },
                   { value: 'flexibility', label: 'Flexibility' },
+                  { value: 'cardio', label: 'Cardio' },
+                  { value: 'fat loss', label: 'Fat Loss' },
                 ].map((goal) => (
                   <button
                     key={goal.value}
@@ -121,8 +140,8 @@ export default function RecommendSection() {
               <label className="block text-lg font-semibold text-white mb-3">
                 Available Equipment
               </label>
-              <div className="grid grid-cols-3 gap-3">
-                {['gym', 'home', 'bodyweight'].map((equip) => (
+              <div className="grid grid-cols-2 gap-3">
+                {['gym', 'home', 'bodyweight', 'minimal'].map((equip) => (
                   <button
                     key={equip}
                     type="button"
@@ -203,7 +222,7 @@ export default function RecommendSection() {
             </h3>
             
             {recommendations.map((rec, index) => (
-              <GlassCard key={index} className="p-6">
+              <GlassCard key={index} className="p-6 hover:scale-102 transition-transform">
                 <h4 className="text-2xl font-bold text-cyan-400 mb-3">{rec.title}</h4>
                 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
@@ -228,20 +247,18 @@ export default function RecommendSection() {
                 <p className="text-gray-300 mb-4">{rec.description}</p>
 
                 <div className="border-t border-white/10 pt-4">
-                  <p className="text-white font-semibold mb-3">
-                    Sample Exercises ({rec.total_exercises} total):
+                  <p className="text-gray-400 mb-3">
+                    Total Exercises: <span className="text-white font-semibold">{rec.total_exercises}</span>
                   </p>
-                  <div className="space-y-2 max-h-64 overflow-y-auto">
-                    {rec.exercises.map((ex, exIndex) => (
-                      <div key={exIndex} className="bg-white/5 p-3 rounded">
-                        <p className="text-cyan-300 font-semibold">{ex.name}</p>
-                        <p className="text-gray-400 text-sm">
-                          Week {ex.week}, Day {ex.day} • {ex.sets} sets × {ex.reps} reps • 
-                          Intensity: {ex.intensity}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
+                </div>
+                
+                <div className="mt-4">
+                  <button
+                    onClick={() => handleSelectPlan(rec)}
+                    className="w-full px-6 py-3 bg-linear-to-r from-cyan-500 to-blue-600 text-white rounded-full font-semibold hover:scale-105 transition-transform shadow-lg shadow-cyan-500/50"
+                  >
+                    View Details & Track Progress
+                  </button>
                 </div>
               </GlassCard>
             ))}

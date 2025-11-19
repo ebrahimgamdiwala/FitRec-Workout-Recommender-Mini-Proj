@@ -18,7 +18,7 @@ export default function FeaturesSection() {
     {
       icon: <TrendingUp className="w-12 h-12" />,
       title: 'Smart Analytics',
-      description: 'AI-powered insights to optimize your training routine.',
+      description: 'Data-driven insights to optimize your training routine.',
     },
     {
       icon: <Zap className="w-12 h-12" />,
@@ -34,8 +34,8 @@ export default function FeaturesSection() {
           <h2 className="text-5xl font-bold text-white mb-4">
             Why Choose FitRec?
           </h2>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-            Your personal AI-powered fitness companion designed to help you achieve your goals
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-16">
+            Your personal fitness companion designed to help you achieve your goals
           </p>
         </div>
 
